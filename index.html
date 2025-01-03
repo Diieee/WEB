@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyTaxi</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+
+    header nav {
+      padding: 20px;
+      background-color: #283593;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav .nav-links a {
+      color: white;
+      margin-right: 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .language-selector {
+      padding: 5px;
+      font-size: 0.9rem;
+      background-color: #3949ab;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 20px;
+      background: linear-gradient(135deg, #3949ab, #e3f2fd);
+      color: white;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .hero .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    .hero .buttons button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .hero .buttons .reserve {
+      background-color: #1e88e5;
+      color: white;
+    }
+
+    .hero .buttons .call {
+      background-color: #0d47a1;
+      color: white;
+    }
+
+    .hero .buttons button:hover {
+      transform: scale(1.1);
+    }
+
+    .hero img {
+      max-width: 80%;
+      height: auto;
+      border-radius: 10px;
+      transition: opacity 0.5s ease;
+    }
+
+    .hero .form-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .hero .form-container input, .hero .form-container select, .hero .form-container button {
+      padding: 15px;
+      font-size: 1rem;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    .cancel-button {
+      background-color: #f44336;
+      color: white;
+      padding: 15px;
+      font-size: 1rem;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    .taxi-types {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px;
+      background-color: #ffffff;
+      border-top: 4px solid #283593;
+    }
+
+    .taxi-type {
+      width: 100%;
+      text-align: center;
+      background-color: #e3f2fd;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .taxi-type img {
+      max-width: 100%;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+
+    .taxi-type:hover {
+      transform: translateY(-10px);
+    }
+
+    .taxi-type h3 {
+      font-size: 2rem; /* Aumenta el tamaño de los títulos */
+      margin-bottom: 15px;
+      font-weight: bold;
+      color: #283593; /* Cambiar el color del texto para hacerlo más elegante */
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    }
+
+    .taxi-type p {
+      font-size: 1.1rem; /* Un poco más grande el texto de la descripción */
+      color: #555;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    iframe {
+      width: 100%;
+      height: 450px;
+      border: 0;
+    }
+
+    footer {
+      background-color: #283593;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 1rem;
+    }
+
+    .contact-info-bar {
+      background-color: #1976d2;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
+      text-align: center;
+    }
+
+    .contact-item {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 15px;
+    }
+
+    .contact-item h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .contact-item p {
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    .contact-item a {
+      text-decoration: none;
+      color: white;
+    }
+
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        flex-direction: row;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+      }
+
+      .hero img {
+        max-width: 50%;
+      }
+
+      .taxi-types {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .taxi-type {
+        width: 30%;
+      }
+
+      .contact-info-bar {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .contact-item {
+        width: 30%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .taxi-type {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <nav>
+    <div>EasyTaxi</div>
+    <div class="nav-links">
+      <a href="#">Inicio</a>
+      <label>
+        <select class="language-selector" onchange="changeLanguage()">
+          <option value="es">Español</option>
+          <option value="gl">Galego</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+    </div>
+  </nav>
+</header>
+<section class="hero">
+  <div class="content">
+    <h1>¿Necesitas un viaje?</h1>
+    <div class="buttons">
+      <button class="reserve" onclick="showForm()">Reservar ahora</button>
+      <button class="call" onclick="window.location.href='tel:+34644660046'">Llamar</button>
+    </div>
+  </div>
+  <img src="coche1.png" alt="Coche EasyTaxi" id="taxiImage">
+  <div class="form-container" id="formContainer">
+    <label for="origin"></label><input type="text" id="origin" placeholder="Lugar de origen" required>
+    <label for="destination"></label><input type="text" id="destination" placeholder="Lugar de destino" required>
+    <label for="name"></label><input type="text" id="name" placeholder="Nombre" required>
+    <label for="lastName"></label><input type="text" id="lastName" placeholder="Apellidos" required>
+    <label for="phone"></label><input type="tel" id="phone" placeholder="Teléfono" required>
+    <label for="date"></label><input type="datetime-local" id="date" required>
+    <button onclick="submitForm()">Enviar</button>
+    <button class="cancel-button" onclick="cancelForm()">Cancelar</button>
+  </div>
+</section>
+
+<section class="taxi-types">
+  <div class="taxi-type">
+    <img src="furgo.png" alt="Taxi de 7 plazas">
+    <h3>Taxi de 7 Plazas</h3>
+    <p>El taxi perfecto para viajes en grupo o con familia. Con capacidad para hasta 7 pasajeros, este vehículo asegura un recorrido cómodo y espacioso para todos. Ya sea para un día de excursión, un viaje al aeropuerto o una celebración especial, nuestro taxi de 7 plazas ofrece la flexibilidad y comodidad que necesitas.</p>
+  </div>
+  <div class="taxi-type">
+    <img src="octavia.jpg" alt="Taxi de 4 plazas">
+    <h3>Taxi de 4 Plazas</h3>
+    <p>Este taxi es ideal para parejas, amigos o pequeños grupos. Con capacidad para 4 personas, proporciona el equilibrio perfecto entre confort y rapidez. Si necesitas un transporte ágil y cómodo para trayectos cortos o largos, este modelo será tu mejor opción para desplazarte por la ciudad o alrededores.</p>
+  </div>
+  <div class="taxi-type">
+    <img src="caddy.jpg" alt="Taxi de 4 plazas">
+    <h3>Taxi de 4 Plazas</h3>
+    <p>¿Viajas con amigos o en familia? Nuestro taxi de 4 plazas es la opción ideal. Disfruta de un ambiente relajado y cómodo mientras te desplazas por la ciudad. Perfecto para quienes buscan eficiencia sin sacrificar la comodidad, este vehículo te llevará a tu destino de manera rápida y segura.<br> <br> </p>
+  </div>
+</section>
+
+<section>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9002.201791379532!2d-7.631331618011249!3d42.50481874318136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd301a6ef9877ea5%3A0xce911daa8e67b14!2sFerreira%20de%20Pant%C3%B3n!5e0!3m2!1sgl!2ses!4v1735860408890!5m2!1sgl!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</section>
+
+<section class="contact-info-bar">
+  <div class="contact-item">
+    <h3>Teléfono</h3>
+    <p><a href="tel:+34644660046">+34 6444444444444444</a></p>
+  </div>
+  <div class="contact-item">
+    <h3>Dirección</h3>
+    <p>Calle Ejemplo, 123, Madrid</p>
+  </div>
+  <div class="contact-item">
+    <h3>Email</h3>
+    <p><a href="mailto:contacto@easytaxi.com">contacto@easytaxi.com</a></p>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 Todos los derechos reservados.
+</footer>
+
+<script>
+  function showForm() {
+    document.querySelector('.hero img').style.opacity = ""; // Ocultamos la imagen
+    document.getElementById('formContainer').style.display = 'flex'; // Mostramos el formulario
+  }
+
+  function submitForm() {
+    const origin = document.getElementById('origin').value;
+    const destination = document.getElementById('destination').value;
+    const name = document.getElementById('name').value;
+    const lastName = document.getElementById('lastName').value;
+    const phone = document.getElementById('phone').value;
+    const date = document.getElementById('date').value;
+
+    const message = `Nombre: ${name} ${lastName}\nOrigen: ${origin}\nDestino: ${destination}\nTeléfono: ${phone}\nFecha y hora: ${date}`;
+
+    const url = `https://wa.me/+34644660046?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank'); // Abrir WhatsApp
+
+    document.querySelector('.hero img').style.opacity = 1;
+    document.getElementById('formContainer').style.display = 'none';
+  }
+
+  function cancelForm() {
+    document.querySelector('.hero img').style.opacity = 1;
+    document.getElementById('formContainer').style.display = 'none';
+  }
+
+
+    function changeLanguage() {
+    var language = document.querySelector('.language-selector').value;
+
+    var texts = {
+    "es": {
+    "heroTitle": "¿Necesitas un viaje?",
+    "reserveButton": "Reservar ahora",
+    "callButton": "Llamar",
+    "taxiTitle1": "Taxi de 7 Plazas",
+    "taxiTitle2": "Taxi de 4 Plazas",
+    "taxiTitle3": "Taxi de 4 Plazas",
+    "taxiDesc1": "El taxi perfecto para viajes en grupo o con familia. Con capacidad para hasta 7 pasajeros, este vehículo asegura un recorrido cómodo y espacioso para todos. Ya sea para un día de excursión, un viaje al aeropuerto o una celebración especial, nuestro taxi de 7 plazas ofrece la flexibilidad y comodidad que necesitas.",
+    "taxiDesc2": "Este taxi es ideal para parejas, amigos o pequeños grupos. Con capacidad para 4 personas, proporciona el equilibrio perfecto entre confort y rapidez. Si necesitas un transporte ágil y cómodo para trayectos cortos o largos, este modelo será tu mejor opción para desplazarte por la ciudad o alrededores.",
+    "taxiDesc3": "¿Viajas con amigos o en familia? Nuestro taxi de 4 plazas es la opción ideal. Disfruta de un ambiente relajado y cómodo mientras te desplazas por la ciudad. Perfecto para quienes buscan eficiencia sin sacrificar la comodidad, este vehículo te llevará a tu destino de manera rápida y segura.",
+    "contactPhone": "Teléfono",
+    "contactAddress": "Dirección",
+    "contactEmail": "Email"
+  },
+    "en": {
+    "heroTitle": "Need a ride?",
+    "reserveButton": "Reserve Now",
+    "callButton": "Call",
+    "taxiTitle1": "7-Seater Taxi",
+    "taxiTitle2": "4-Seater Taxi",
+    "taxiTitle3": "4-Seater Taxi",
+    "taxiDesc1": "The perfect taxi for group or family trips. With seating for up to 7 passengers, this vehicle ensures a comfortable and spacious ride for everyone. Whether it's for a day trip, airport transfer, or special celebration, our 7-seater taxi offers the flexibility and comfort you need.",
+    "taxiDesc2": "This taxi is ideal for couples, friends, or small groups. With a capacity of 4 people, it strikes the perfect balance between comfort and speed. If you need agile and comfortable transport for short or long trips, this model will be your best option for getting around the city or nearby areas.",
+    "taxiDesc3": "Traveling with friends or family? Our 4-seater taxi is the perfect choice. Enjoy a relaxed and comfortable atmosphere as you move around the city. Perfect for those who seek efficiency without sacrificing comfort, this vehicle will take you to your destination quickly and safely.",
+    "contactPhone": "Phone",
+    "contactAddress": "Address",
+    "contactEmail": "Email"
+  },
+    "gl": {
+    "heroTitle": "Necesitas un viaxe?",
+    "reserveButton": "Reservar agora",
+    "callButton": "Chamar",
+    "taxiTitle1": "Taxi de 7 prazas",
+    "taxiTitle2": "Taxi de 4 prazas",
+    "taxiTitle3": "Taxi de 4 prazas",
+    "taxiDesc1": "O taxi perfecto para viaxes en grupo ou en familia. Con capacidade para ata 7 pasaxeiros, este vehículo asegura un percorrido cómodo e espazoso para todos. Xa sexa para un día de excursión, un viaxe ao aeroporto ou unha celebración especial, o noso taxi de 7 prazas ofrece a flexibilidade e a comodidade que precisas.",
+    "taxiDesc2": "Este taxi é ideal para parellas, amigos ou pequenos grupos. Con capacidade para 4 persoas, proporciona o equilibrio perfecto entre confort e rapidez. Se necesitas un transporte áxil e cómodo para traxectos curtos ou longos, este modelo será a mellor opción para desprazarte pola cidade ou arredores.",
+    "taxiDesc3": "Viaxas con amigos ou en familia? O noso taxi de 4 prazas é a opción ideal. Disfruta dun ambiente relaxado e cómodo mentres te desprazas pola cidade. Perfecto para os que buscan eficiencia sen sacrificar a comodidade, este vehículo levarate ao teu destino de forma rápida e segura.",
+    "contactPhone": "Teléfono",
+    "contactAddress": "Enderezo",
+    "contactEmail": "Email"
+  }
+  };
+
+    document.querySelector('.hero h1').textContent = texts[language].heroTitle;
+    document.querySelector('.reserve').textContent = texts[language].reserveButton;
+    document.querySelector('.call').textContent = texts[language].callButton;
+
+    var taxiTitles = document.querySelectorAll('.taxi-type h3');
+    var taxiDescs = document.querySelectorAll('.taxi-type p');
+
+    taxiTitles[0].textContent = texts[language].taxiTitle1;
+    taxiTitles[1].textContent = texts[language].taxiTitle2;
+    taxiTitles[2].textContent = texts[language].taxiTitle3;
+
+    taxiDescs[0].textContent = texts[language].taxiDesc1;
+    taxiDescs[1].textContent = texts[language].taxiDesc2;
+    taxiDescs[2].textContent = texts[language].taxiDesc3;
+
+    var contactItems = document.querySelectorAll('.contact-item h3');
+    contactItems[0].textContent = texts[language].contactPhone;
+    contactItems[1].textContent = texts[language].contactAddress;
+    contactItems[2].textContent = texts[language].contactEmail;
+  }
+
+
+</script>
+</body>
+</html>
